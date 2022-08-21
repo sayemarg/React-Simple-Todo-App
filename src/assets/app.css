@@ -1,0 +1,122 @@
+:root {
+	--color-background: #fefcfd;
+	--color-primary: #f6a21e;
+	--color-primary-variant: #e55b13;
+	--color-on-primary: #ffffff;
+	--color-secondary: #baf2d8;
+	--color-secondary-variant: #bad7f2;
+	--color-on-secondary: #000000;
+	--color-error: #f02d3a;
+	--color-error-variant: #dd0426;
+	--color-on-error: #ffffff;
+	--radius-size: 15px;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: var(--color-background);
+	font-size: 2rem;
+	margin: 0;
+}
+button {
+	border: none;
+	cursor: pointer;
+	font-size: inherit;
+	font-weight: bolder;
+	transition: background-color 0.1s ease-in-out;
+}
+
+.wrapper {
+	padding: 10vh 25% 0;
+	transition: padding 0.5s ease;
+}
+
+.todo-form {
+	margin: 0 auto;
+}
+
+.form-input {
+	display: flex;
+	justify-content: space-around;
+	margin: 10px;
+}
+.form-input__text {
+	border-radius: var(--radius-size);
+	border: 1px solid var(--color-primary);
+	flex-basis: 80%;
+	font-size: inherit;
+	outline: none;
+	padding: 10px 20px;
+}
+.form-input__button {
+	background-color: var(--color-primary);
+	border-radius: var(--radius-size);
+	color: var(--color-on-primary);
+	flex-basis: 10%;
+}
+.form-input__button:active {
+	background-color: var(--color-primary-variant);
+}
+
+.todo-list {
+	margin-top: 20px;
+	max-height: 70vh;
+	overflow: auto;
+	padding: 20px;
+}
+.todo-item {
+	align-items: center;
+	background-color: var(--color-secondary);
+	border-radius: var(--radius-size);
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 20px;
+}
+.todo-item:hover {
+	background-color: var(--color-secondary-variant);
+}
+.todo-item + .todo-item {
+	margin-top: 10px;
+}
+.todo-item__text {
+	color: var(--color-on-secondary);
+}
+.todo-item__text.done {
+	text-decoration: line-through;
+}
+.todo-item__delete {
+	align-items: center;
+	background-color: var(--color-error);
+	border-radius: 50%;
+	color: var(--color-on-error);
+	display: flex;
+	font-weight: bold;
+	height: 40px;
+	justify-content: center;
+	padding: 5px;
+	width: 40px;
+}
+.todo-item__delete:active {
+	background-color: var(--color-error-variant);
+}
+
+@media screen and (max-width: 1300px) {
+	.wrapper {
+		padding: 10vh 10% 0;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.form-input {
+		flex-direction: column;
+	}
+	.form-input__button {
+		margin-top: 10px;
+	}
+}
