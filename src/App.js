@@ -1,22 +1,20 @@
 import { useState } from "react";
+import { TaskForm, TodoItem } from "./components";
 import "./assets/app.css";
 
 function App() {
 	const [counter, setCounter] = useState(0);
-	const [text, setText] = useState("");
 	const [todos, setTodos] = useState([]);
 
-	const onFormSubmit = (e) => {
-		e.preventDefault();
+	const onFormSubmit = (text) => {
+		text = text.trim();
 
-		const trimmedText = text.trim();
-
-		if (!trimmedText) {
+		if (!text) {
 			window.alert("Text is mandatory.");
 			return;
 		}
 
-		if (20 < trimmedText.length) {
+		if (20 < text.length) {
 			window.alert("The maximum text length is 20 characters.");
 			return;
 		}
@@ -25,62 +23,52 @@ function App() {
 
 		const todo = {
 			id: counter,
-			text: trimmedText,
 			done: false,
+			text: text,
 		};
 
-		setTodos([...todos, todo]);
-
-		setText("");
+		setTodos(todos.concat(todo));
 	};
 
-	const onTodoItemClick = (e, todoID) => {
-		const newTodos = [...todos];
-
-		const index = newTodos.findIndex((item) => item.id === todoID);
-
-		if (e.target.matches(".todo-item__delete")) {
-			newTodos.splice(index, 1);
-		} else {
-			newTodos[index].done = !newTodos[index].done;
-		}
+	const onTodoClick = (todoID) => {
+		const newTodos = todos.map((todo) =>
+			todo.id === todoID
+				? {
+						...todo,
+						done: !todo.done,
+				  }
+				: todo
+		);
 
 		setTodos(newTodos);
 	};
 
-	const getTodoClassName = (todo) =>
-		`todo-item__text ${todo.done ? "done" : ""}`;
+	const onTodoDelete = (todoID) => {
+		const newTodos = [...todos];
+
+		const index = newTodos.findIndex((item) => item.id === todoID);
+
+		newTodos.splice(index, 1);
+
+		setTodos(newTodos);
+	};
 
 	return (
 		<div className="wrapper">
-			<form onSubmit={onFormSubmit} className="todo-form">
-				<div className="form-input">
-					<input
-						type="text"
-						value={text}
-						onChange={(e) => setText(e.target.value)}
-						className="form-input__text"
-						max="20"
-					/>
-					<button type="submit" className="form-input__button">
-						+
-					</button>
-				</div>
-			</form>
+			<TaskForm
+				onSubmit={onFormSubmit}
+				placeHolder="Todo text"
+				buttonText="+"
+			/>
 
 			<div className="todo-list">
 				{todos.map((todo) => (
-					<div
-						className="todo-item"
+					<TodoItem
 						key={todo.id}
-						onClick={(e) => onTodoItemClick(e, todo.id)}
-					>
-						<span className={getTodoClassName(todo)}>
-							{todo.text}
-						</span>
-
-						<button className="todo-item__delete">&times;</button>
-					</div>
+						todo={todo}
+						onClick={onTodoClick}
+						onDelete={onTodoDelete}
+					/>
 				))}
 			</div>
 		</div>
