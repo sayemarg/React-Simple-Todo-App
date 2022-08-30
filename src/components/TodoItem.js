@@ -9,12 +9,11 @@ const TodoItem = ({ todo, onClick, onDelete }) => {
 		onDelete(todo.id);
 	};
 
-	const getTodoClassName = (todo) =>
-		`todo-item__text ${todo.done ? "done" : ""}`;
+	const getTodoClassName = () => `todo-item__text ${todo.done ? "done" : ""}`;
 
 	return (
 		<div className="todo-item" onClick={onItemClick}>
-			<span className={getTodoClassName(todo)}>{todo.text}</span>
+			<span className={getTodoClassName()}>{todo.text}</span>
 
 			<button className="todo-item__delete" onClick={onDelteClick}>
 				&times;

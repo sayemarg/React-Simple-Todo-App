@@ -1,36 +1,26 @@
-import { useState } from "react";
-
-const TaskForm = ({ onSubmit, placeHolder, buttonText }) => {
-	const [text, setText] = useState("");
-
-	const onFormSubmit = (e) => {
-		e.preventDefault();
-
-		onSubmit(text);
-
-		setText("");
-	};
-
-	const onInputChange = (e) => {
-		setText(e.target.value);
-	};
-
+const TaskForm = ({ text, error, onSubmit, onChange }) => {
 	return (
-		<form onSubmit={onFormSubmit} className="todo-form">
+		<form onSubmit={onSubmit} className="todo-form">
 			<div className="form-input">
 				<input
 					type="text"
 					value={text}
-					onChange={onInputChange}
+					onChange={onChange}
 					className="form-input__text"
-					placeholder={placeHolder}
+					placeholder="Todo Text"
 					max="20"
 				/>
 
 				<button type="submit" className="form-input__button">
-					{buttonText}
+					+
 				</button>
 			</div>
+
+			{error ? (
+				<div className="todo-form__error">
+					<small>{error}</small>
+				</div>
+			) : null}
 		</form>
 	);
 };

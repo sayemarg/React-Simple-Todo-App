@@ -3,31 +3,44 @@ import { TaskForm, TodoItem } from "./components";
 import "./assets/app.css";
 
 function App() {
-	const [counter, setCounter] = useState(0);
+	const MAX_TEXT_LENGTH = 30;
+
 	const [todos, setTodos] = useState([]);
+	const [text, setText] = useState("");
+	const [error, setError] = useState(null);
 
-	const onFormSubmit = (text) => {
-		text = text.trim();
+	const onFormSubmit = (e) => {
+		e.preventDefault();
 
-		if (!text) {
-			window.alert("Text is mandatory.");
+		let inputText = text.trim();
+
+		if (!inputText) {
+			setError("Text is mandatory.");
 			return;
 		}
 
-		if (20 < text.length) {
-			window.alert("The maximum text length is 20 characters.");
+		if (MAX_TEXT_LENGTH < inputText.length) {
+			setError(
+				`The maximum text length is ${MAX_TEXT_LENGTH} characters.`
+			);
 			return;
 		}
-
-		setCounter((counter) => counter + 1);
 
 		const todo = {
-			id: counter,
+			id: Date.now(),
 			done: false,
 			text: text,
 		};
 
 		setTodos(todos.concat(todo));
+
+		setText("");
+	};
+
+	const onInputChange = (e) => {
+		setText(e.target.value);
+
+		setError(null);
 	};
 
 	const onTodoClick = (todoID) => {
@@ -56,9 +69,10 @@ function App() {
 	return (
 		<div className="wrapper">
 			<TaskForm
+				text={text}
+				error={error}
 				onSubmit={onFormSubmit}
-				placeHolder="Todo text"
-				buttonText="+"
+				onChange={onInputChange}
 			/>
 
 			<div className="todo-list">
